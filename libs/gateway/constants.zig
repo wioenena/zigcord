@@ -1,0 +1,1 @@
+pub const ZLIB_SUFFIX: []const u8 = .{ 0x00, 0x00, 0xFF, 0xFF };
