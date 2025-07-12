@@ -1,5 +1,6 @@
-const OPCode = @import("opcode.zig").OPCode;
 const std = @import("std");
+
+const OPCode = @import("opcode.zig").OPCode;
 
 pub fn Event(comptime T: type) type {
     return struct {
