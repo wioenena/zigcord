@@ -11,7 +11,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
-    const gateway_mod = b.createModule(.{
+    const gateway_mod = b.addModule("zigcord-gateway", .{
         .root_source_file = b.path("libs/gateway/lib.zig"),
         .target = target,
         .optimize = optimize,
