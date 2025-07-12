@@ -1,0 +1,20 @@
+// Project-local debug tasks
+//
+// For more documentation on how to configure debug tasks,
+// see: https://zed.dev/docs/debugger
+[
+  {
+    "adapter": "CodeLLDB",
+    "request": "launch",
+    "label": "Zig debug",
+    "build": {
+      "command": "zig",
+      "args": [
+        "build"
+      ],
+      "cwd": "$ZED_WORKTREE_ROOT"
+    },
+    "program": "$ZED_WORKTREE_ROOT/zig-out/bin/zigcord",
+    "envFile": "./.env"
+  }
+]
