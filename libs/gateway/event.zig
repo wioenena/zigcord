@@ -7,23 +7,33 @@ pub fn Event(comptime T: type) type {
         const Self = @This();
 
         op: OPCode,
-        d: T,
-        s: ?u32, // TODO: check this is u32
+        d: ?T,
+        s: ?u32,
         t: ?[]const u8,
 
+        pub fn init(op: OPCode, d: ?T, s: ?u32, t: ?[]const u8) Self {
+            comptime if (T == std.json.Value) unreachable;
+            return .{
+                .op = op,
+                .d = d,
+                .s = s,
+                .t = t,
+            };
+        }
+
         pub fn fromJsonSlice(allocator: std.mem.Allocator, json: []const u8) !std.json.Parsed(Self) {
-            comptime if (T != std.json.Value) unreachable; // Unreachable if this is receive event.
+            comptime if (T != std.json.Value) unreachable;
             return try std.json.parseFromSlice(Self, allocator, json, .{});
         }
 
         pub fn payload(self: Self, comptime P: type, allocator: std.mem.Allocator) !std.json.Parsed(P) {
-            comptime if (T != std.json.Value) unreachable; // Unreachable if this is receive event.
+            comptime if (T != std.json.Value) unreachable;
             return try std.json.parseFromValue(P, allocator, self.d, .{});
         }
 
         pub fn toJsonSlice(self: Self, allocator: std.mem.Allocator) ![]const u8 {
-            comptime if (T == std.json.Value) unreachable; // Unreachable if this is send event.
-            return try std.json.stringifyAlloc(allocator, self, .{});
+            comptime if (T == std.json.Value) unreachable;
+            return try std.json.stringifyAlloc(allocator, self, .{ .emit_null_optional_fields = false });
         }
     };
 }
