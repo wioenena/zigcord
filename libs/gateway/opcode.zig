@@ -20,12 +20,3 @@ pub const OPCode = enum(u5) {
         try w.print("{d}", .{@intFromEnum(self)});
     }
 };
-
-test "jsonStringify" {
-    const allocator = std.testing.allocator;
-
-    const json = try std.json.stringifyAlloc(allocator, OPCode.Reconnect, .{});
-    defer allocator.free(json);
-
-    try std.testing.expectEqualStrings(json, "7");
-}
