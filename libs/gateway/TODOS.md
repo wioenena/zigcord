@@ -9,13 +9,13 @@
 - [x] Generic event for send and receive events.
 
 ## Send events
-- [ ] Identify
-- [ ] Resume
-- [ ] Heartbeat
-- [ ] RequestGuildMembers
-- [ ] RequestSoundboardSounds
-- [ ] UpdateVoiceState
-- [ ] UpdatePresence
+- [x] Identify
+- [x] Resume
+- [x] Heartbeat
+- [x] RequestGuildMembers
+- [x] RequestSoundboardSounds
+- [x] UpdateVoiceState
+- [x] UpdatePresence
 
 ## Receive events
 - [ ] Hello
