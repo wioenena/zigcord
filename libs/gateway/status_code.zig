@@ -1,8 +1,6 @@
 const std = @import("std");
 
 pub const StatusCode = enum(u12) {
-    const Self = @This();
-
     UnknownError = 4000,
     UnknownOpcode,
     DecodeError,
@@ -17,8 +15,4 @@ pub const StatusCode = enum(u12) {
     InvalidAPIVersion,
     InvalidIntents,
     DisallowedIntents,
-
-    pub fn jsonStringify(self: Self, w: anytype) !void {
-        try w.print("{d}", .{@intFromEnum(self)});
-    }
 };
