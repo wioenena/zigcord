@@ -3,7 +3,12 @@
     .version = "0.0.0",
     .fingerprint = 0xec53cf113096c6e7,
     .minimum_zig_version = "0.14.1",
-    .dependencies = .{},
+    .dependencies = .{
+        .websocket = .{
+            .url = "git+https://github.com/karlseguin/websocket.zig#fd250d17d96025c404bc788e6ad9b732995f92fc",
+            .hash = "websocket-0.1.0-ZPISdbZVAwAgDzIxt0cpiG4hjPVq92ALsEPLSCPbMQqv",
+        },
+    },
     .paths = .{
         "build.zig",
         "build.zig.zon",
