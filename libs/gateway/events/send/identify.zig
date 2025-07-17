@@ -19,6 +19,6 @@ pub const IdentifyPayload = struct {
     compress: ?bool,
     large_threshold: ?u8,
     shard: ?[2]u16,
-    presence: UpdatePresence,
+    presence: ?UpdatePresence,
     intents: u32,
 };
