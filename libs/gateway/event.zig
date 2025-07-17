@@ -28,10 +28,12 @@ pub fn Event(comptime T: type) type {
 
         pub fn payload(self: Self, comptime P: type, allocator: std.mem.Allocator) !std.json.Parsed(P) {
             comptime if (T != std.json.Value) unreachable;
-            return try std.json.parseFromValue(P, allocator, self.d, .{});
+            if (self.d) |d| {
+                return try std.json.parseFromValue(P, allocator, d, .{});
+            } else unreachable;
         }
 
-        pub fn toJsonSlice(self: Self, allocator: std.mem.Allocator) ![]const u8 {
+        pub fn toJsonSlice(self: Self, allocator: std.mem.Allocator) ![]u8 {
             comptime if (T == std.json.Value) unreachable;
             return try std.json.stringifyAlloc(allocator, self, .{ .emit_null_optional_fields = false });
         }
