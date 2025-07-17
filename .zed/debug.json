@@ -6,15 +6,14 @@
   {
     "adapter": "CodeLLDB",
     "request": "launch",
-    "label": "Zig debug",
+    "label": "Debug basic-example",
     "build": {
       "command": "zig",
       "args": [
         "build"
       ],
-      "cwd": "$ZED_WORKTREE_ROOT"
+      "cwd": "$ZED_WORKTREE_ROOT/examples/basic-example"
     },
-    "program": "$ZED_WORKTREE_ROOT/zig-out/bin/zigcord",
-    "envFile": "./.env"
+    "program": "$ZED_WORKTREE_ROOT/examples/basic-example/zig-out/bin/basic_example"
   }
 ]
