@@ -15,6 +15,7 @@ pub const Events = struct {
 
     // Receive events
     pub const HelloEvent = @import("events/receive/hello.zig");
+    pub const ReadyEvent = @import("events/receive/ready.zig");
 };
 
 pub const Structures = struct {
