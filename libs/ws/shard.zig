@@ -48,11 +48,6 @@ pub const Shard = struct {
                         var parsed = try Gateway.Event(std.json.Value).fromJsonSlice(self.allocator, message.data);
                         defer parsed.deinit();
                         const event: Gateway.Event(std.json.Value) = parsed.value;
-                        self.logger.debug("Received event: OP: {}, t: {s}, s: {d}", @src(), .{
-                            @intFromEnum(event.op),
-                            event.t orelse "null",
-                            event.s orelse 0,
-                        });
                         try self.handleEvent(event);
                     },
                     .ping => unreachable,
@@ -80,10 +75,26 @@ pub const Shard = struct {
                 try self.sendIdentify();
             },
 
+            .Dispatch => try self.handleDispatch(event),
+
             else => |op| {
                 self.logger.debug("unimplemented OP: {}", @src(), .{op});
             },
         }
+    }
+
+    fn handleDispatch(self: *Self, event: Gateway.Event(std.json.Value)) !void {
+        if (event.t) |t| {
+            self.logger.debug("Event received: {s}", @src(), .{t});
+            if (std.mem.eql(u8, t, "READY")) {
+                var parsed = try event.payload(Gateway.Events.ReadyEvent.ReadyPayload, self.allocator);
+                defer parsed.deinit();
+                const payload = parsed.value;
+                self.logger.debug("Ready Payload: {any}", @src(), .{payload});
+            } else {
+                self.logger.debug("Unimplemented Event: {s}", @src(), .{t});
+            }
+        } else unreachable;
     }
 
     fn sendHeartbeat(self: *Self, payload: Gateway.Events.HelloEvent.HelloPayload) !void {
@@ -118,6 +129,7 @@ pub const Shard = struct {
         defer self.allocator.free(json);
         try self.send(json);
     }
+
     fn send(self: *Self, data: []u8) !void {
         if (self.ws) |*ws| {
             try ws.write(data);
