@@ -23,13 +23,13 @@ pub fn Event(comptime T: type) type {
 
         pub fn fromJsonSlice(allocator: std.mem.Allocator, json: []const u8) !std.json.Parsed(Self) {
             comptime if (T != std.json.Value) unreachable;
-            return try std.json.parseFromSlice(Self, allocator, json, .{});
+            return try std.json.parseFromSlice(Self, allocator, json, .{ .ignore_unknown_fields = true });
         }
 
         pub fn payload(self: Self, comptime P: type, allocator: std.mem.Allocator) !std.json.Parsed(P) {
             comptime if (T != std.json.Value) unreachable;
             if (self.d) |d| {
-                return try std.json.parseFromValue(P, allocator, d, .{});
+                return try std.json.parseFromValue(P, allocator, d, .{ .ignore_unknown_fields = true });
             } else unreachable;
         }
 
